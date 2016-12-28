@@ -1,0 +1,51 @@
+Sub ExportingSingleLinewID()
+
+Dim myFile As String, cellValue As Variant, i As Long, jj As Long, kk As Long
+Dim rng1 As Range, CharCount As Integer
+Dim c, cleaned As String
+
+Dim myFile2 As String
+
+
+myFile = "C:\Users\Gea\Documents\BTE_IIISem\E-health methods and applications\ProveSecondaParte\ProvaAuto_filter4.txt"
+myFile2 = "C:\Users\Gea\Documents\BTE_IIISem\E-health methods and applications\ProveSecondaParte\Printing_filter4.txt"
+
+
+Set rng1 = Columns("T").SpecialCells(xlCellTypeConstants).EntireRow
+
+Open myFile For Output As #1
+Open myFile2 For Output As #2
+
+    For i = 1 To rng1.Rows.Count
+    
+        cellValue = rng1.Cells(i, 20).Value
+        
+        If rng1.Cells(i, 4) = "English" Then
+                
+            cleaned = ""
+            kk = 0
+            For jj = 1 To Len(cellValue)
+                c = Mid(cellValue, jj, 1)
+                If AscW(c) <= 127 Then
+                    cleaned = cleaned & c
+                Else: kk = kk + 1
+                End If
+            Next
+            
+            cleaned = Trim(cleaned)
+            
+            Print #2, CStr(i + 10000) & Chr(124) & kk & Chr(124) & CStr(Len(cellValue)) & Chr(124) & CStr(0.75 * Len(cellValue))
+            
+            If kk < 0.75 * Len(cellValue) Then
+                If cleaned <> "" Then
+                
+                    Print #1, CStr(i + 10000) & Chr(124) & cleaned
+                End If
+            End If
+        End If
+        
+    Next i
+
+Close #1, #2
+
+End Sub
