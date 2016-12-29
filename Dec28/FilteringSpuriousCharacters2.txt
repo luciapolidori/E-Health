@@ -36,6 +36,7 @@ Do Until EOF(1)
             jj = jj + 1
         Loop
     
+    textline = Trim(textline)
     Print #2, textline
     
 Loop
