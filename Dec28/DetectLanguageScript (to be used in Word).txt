@@ -1,0 +1,35 @@
+Sub CheckLanguage()
+
+Dim myFile As String
+Dim para As Paragraph
+Dim lang As WdLanguageID
+
+'define a .txt file where all the descriptions written in English will finally be printed
+myFile = "C:\Users\chiara\Desktop\DB_medical_detectLanguage_result.txt"
+
+Open myFile For Output As #1
+
+Documents("DB_medical_singlelinewID").Activate  'inserire tra (" ") il nome del file .doc creato in Excel
+
+With ActiveDocument
+    
+    ActiveDocument.DetectLanguage
+    
+    For Each para In ActiveDocument.Paragraphs
+        
+        lang = para.Range.LanguageID   'detect the language of the paragraph considered
+        
+	'I considered four different types of English that can be accepted
+        If ((lang = wdEnglishUS) Or (lang = wdEnglishAUS) Or (lang = wdEnglishUK) Or (lang = wdEnglishCanadian)) Then
+            
+            Print #1, para.Range.Text;   'print in the result .txt file the paragraph (description) only if it's written in English,
+  					 'otherwise nothing is written in the file
+        End If
+    
+    Next
+
+End With
+
+Close #1
+
+End Sub
