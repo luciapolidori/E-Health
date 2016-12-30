@@ -1,0 +1,74 @@
+acute respiratory distress syndrome
+aerosol therapy
+airflow obstruction
+alveolar
+alveoli
+aphonia
+apnoea
+arterial blood gas
+asthma
+asthmatic
+auscultate
+auscultation
+breath
+breath sounds
+breathe
+breathing
+bronchi
+bronchial
+bronchiogenic
+bronchitis
+bronchodilator
+bronchology
+bronchoscopy
+bronchospasm
+broncus
+chest
+chronic obstructive pulmonary disease
+cough
+cystic fibrosis
+dyspnea
+emphysema
+empyema
+endotracheal intubation
+epiglottis
+exhalation
+hypercapnia
+hypernea
+hyperventilation
+hypoxemia
+hypoxia
+inhalation
+laryingitis
+larynges
+larynx
+lung
+lung cancer
+lung sounds
+lungs
+obstructive lung disease
+occupational lung disease
+orthopnea
+parenchyma
+parenchymal
+pharyngitis
+pharynx
+pneumology
+pneumonia
+pneumothorax
+pulmonary
+pulmonary fibrosis
+pulmonary hypertension
+pulmonology
+respiration
+respiratory
+rhinitis
+shortness of breath
+sinusitis
+sore throat
+spirometry
+thoracic
+throat
+trachea
+tuberculosis
+ventilation
