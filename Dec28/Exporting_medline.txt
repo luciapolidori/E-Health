@@ -1,5 +1,6 @@
 Sub medline()
 
+'---> exporting descriptions (MEDLINE format) in a .doc (Word) document in order to apply DetectLanguage
 
 Dim myFile As String, cellValue As Variant, i As Long, jj As Long
 Dim rng1, rng2 As Range, CharCount As Integer
@@ -11,7 +12,7 @@ Dim kk, ll As Integer
 Dim titleValue As Variant
 
 
-myFile = "C:\Users\Gea\Documents\BTE_IIISem\E-health methods and applications\ProveSecondaParte\mm prove\DB_medical_medline_letterH.txt"
+myFile = "C:\Users\Gea\Documents\BTE_IIISem\E-health methods and applications\ProveSecondaParte\mm prove\DB_medical_medline.doc"
 'myFile2 = "C:\Users\Gea\Documents\BTE_IIISem\E-health methods and applications\ProveSecondaParte\mm prove\DB_medical_medline_record.txt"
 
 
