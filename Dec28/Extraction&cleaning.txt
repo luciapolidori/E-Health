@@ -1,5 +1,7 @@
 Sub ExportingSingleLinewID()
 
+'---> exporting descriptions (singleLine with ID) in a .doc (Word) document in order to apply DetectLanguage
+
 Dim myFile As String, cellValue As Variant, i As Long, jj As Long, kk As Long
 Dim rng1 As Range, CharCount As Integer
 Dim c, cleaned As String
@@ -7,7 +9,7 @@ Dim c, cleaned As String
 Dim myFile2 As String
 
 
-myFile = "C:\Users\Gea\Documents\BTE_IIISem\E-health methods and applications\ProveSecondaParte\DB_medical_singlelinewID.txt"
+myFile = "C:\Users\Gea\Documents\BTE_IIISem\E-health methods and applications\ProveSecondaParte\DB_medical_singlelinewID.doc"
 myFile2 = "C:\Users\Gea\Documents\BTE_IIISem\E-health methods and applications\ProveSecondaParte\DB_medical_record.txt"
 
 
