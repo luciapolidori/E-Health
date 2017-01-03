@@ -5,8 +5,8 @@ amniocentesis
 amnion
 breast
 breasts
-carcinoma of the breast
-carcinoma of the cervix
+breast
+cervix
 cervical
 cervix
 chlamydia
@@ -15,14 +15,11 @@ clitoris
 cystoscopy
 dysmenorrhea
 dysmenorrhoea
-egg cell
-egg cells
-fallopian tubes
-female reproductive system
+fallopian
 fertilization
 fetal
 fetus
-fibrocystic breast disease
+breast
 fimbriae
 gametes
 gynaecology
@@ -37,7 +34,7 @@ labium
 lanugo
 laparoscopy
 laparotomy
-mammary glands
+mammary
 mammogram
 mastectomy
 menopause
@@ -52,22 +49,18 @@ obstetrician
 obstetricians
 oophorectomy
 ovarian
-ovarian cyst
 ovaries
 ovary
-pap smear
-pap test
+pap
 pelvic
 pelvis
 perineum
 placenta
 pregnancy
 pregnant
-premenstrual syndrome
-sex organ
-sex organs
+premenstrual
 speculum
-tubal ligation
+tubal
 ultrasound
 urinary
 urine
@@ -78,4 +71,4 @@ uterus
 vagina
 vaginal
 vulva
-yeast infection
+yeast

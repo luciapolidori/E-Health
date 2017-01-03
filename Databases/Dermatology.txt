@@ -1,4 +1,3 @@
-abscess
 acne
 acitinic
 acochordon
@@ -15,18 +14,15 @@ blemish
 blepheroplasty
 bulla
 botox
-basal 
 candidiasis
 carbuncle
 carcinoma
 cellulitis
-connective
 collagen
 clavus
 comedo
 collagen
 crusting
-cyst
 crysurgery
 derma
 dermis
@@ -37,7 +33,6 @@ dermatographism
 dystrophy 
 desquamated
 desquamation
-dimple 
 dermatology
 dermatological
 dermatosis
@@ -212,7 +207,3 @@ atrophy
 macule
 nodule
 vescicle
-
-
-
-

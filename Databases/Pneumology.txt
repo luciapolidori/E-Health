@@ -1,17 +1,16 @@
-acute respiratory distress syndrome
-aerosol therapy
-airflow obstruction
+respiratory
+aerosol
+airflow
 alveolar
 alveoli
 aphonia
 apnoea
-arterial blood gas
+arterial 
+gas
 asthma
 asthmatic
 auscultate
 auscultation
-breath
-breath sounds
 breathe
 breathing
 bronchi
@@ -23,15 +22,16 @@ bronchology
 bronchoscopy
 bronchospasm
 broncus
-chest
-chronic obstructive pulmonary disease
+pulmonary
 cough
-cystic fibrosis
+fibrosis
 dyspnea
 emphysema
 empyema
-endotracheal intubation
+endotracheal 
+intubation
 epiglottis
+espiration
 exhalation
 hypercapnia
 hypernea
@@ -39,15 +39,13 @@ hyperventilation
 hypoxemia
 hypoxia
 inhalation
+inspiration
 laryingitis
 larynges
 larynx
 lung
-lung cancer
-lung sounds
 lungs
-obstructive lung disease
-occupational lung disease
+obstructive
 orthopnea
 parenchyma
 parenchymal
@@ -57,17 +55,15 @@ pneumology
 pneumonia
 pneumothorax
 pulmonary
-pulmonary fibrosis
-pulmonary hypertension
+pulmonary
 pulmonology
 respiration
 respiratory
 rhinitis
-shortness of breath
+breath
 sinusitis
-sore throat
+throat
 spirometry
-thoracic
 throat
 trachea
 tuberculosis

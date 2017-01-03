@@ -4,27 +4,22 @@ arthritic
 arthritis
 arthrotec
 autoimmune
-autoimmune disease
-bouchard’s nodes
+bouchard’s
 bruit
 calcification
 cartilage
 celebrex
-connective tissue
 corticosteroid
 cortisone
 epicondyle
 epicondylitis
 fibromyalgia
-hormone replacement therapy
-immune system
+immune
 immunology
 interphalangeal
 joints
 lupus
-medial fat pads
 metatarsal
-musculoskeletal system
 muskoloskeletal
 myositis
 nodules
@@ -43,11 +38,10 @@ rheumatologist
 rheumatology
 sarcoidosis
 scleroderma
-sjogren’s syndrome
-soft tissue
-soft tissues
+sjogren’s
+tissue
+tissues
 spondylitis
 synthroid
 tendinitis
-tennis elbow
 vasculitis

@@ -19,4 +19,3 @@ teach
 teaching
 train
 training
-training program
