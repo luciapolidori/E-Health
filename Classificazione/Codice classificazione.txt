@@ -103,6 +103,7 @@ Do While Dir(MyFile) 'for each txt file about metamap output result
             End If
                  
             If (InStr(result(j), "[Mental or Behavioral Dysfunction]") > 0) Then
+                sleep = sleep + checkInDatabase(organ, "Polysomnography")
                 neurology = neurology + 1
             End If
             
@@ -119,6 +120,7 @@ Do While Dir(MyFile) 'for each txt file about metamap output result
                 rheumatology = rheumatology + checkInDatabase(organ, "Rheumatology")
                 mental = mental + checkInDatabase(organ, "MentalHealth")
                 neurology = neurology + checkInDatabase(organ, "Neurology")
+                sleep = sleep + checkInDatabase(organ, "Polysomnography")
             End If
     
             If (InStr(result(j), "[Mental Process]") > 0) Then
@@ -171,6 +173,7 @@ Do While Dir(MyFile) 'for each txt file about metamap output result
                 vision = vision + checkInDatabase(organ, "Vision")
                 ginecology = ginecology + checkInDatabase(organ, "Ginecology")
                 counter(6, 2) = CStr(CInt(counter(6, 2)) + checkInDatabase(organ, "Nutrition"))
+                sleep = sleep + checkInDatabase(organ, "Polysomnography")
             End If
             
             If (InStr(result(j), "[Health Care Activity]") > 0) Then
@@ -201,6 +204,7 @@ Do While Dir(MyFile) 'for each txt file about metamap output result
                 ginecology = ginecology + checkInDatabase(organ, "Ginecology")
                 dermatology = dermatology + checkInDatabase(organ, "Dermatology")
                 diabete = diabete + checkInDatabase(organ, "Diabete")
+                sleep = sleep + checkInDatabase(organ, "Polysomnography")
                 neurology = neurology + checkInDatabase(organ, "Neurology")
                 orthopedy = orthopedy + checkInDatabase(organ, "PhysiatryOrthopedic")
             End If
@@ -287,6 +291,7 @@ Do While Dir(MyFile) 'for each txt file about metamap output result
                 vision = vision + checkInDatabase(organ, "Vision")
                 radiology = radiology + checkInDatabase(organ, "Radiology")
                 dermatology = dermatology + checkInDatabase(organ, "Dermatology")
+                sleep = sleep + checkInDatabase(organ, "Polysomnography")
             End If
             
             
