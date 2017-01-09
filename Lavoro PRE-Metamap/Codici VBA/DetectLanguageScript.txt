@@ -1,0 +1,49 @@
+Sub CheckLanguage()
+
+Dim myFile As String, myFile2 As String
+Dim para As Paragraph
+Dim lang As WdLanguageID
+Dim counter As Long
+
+'we define a .txt file where all the detected descriptions written in English will be printed
+myFile = "C:\Users\chiara\Desktop\DB_medical_languageDetected.txt"
+
+'we declare an additional file to keep track of the IDs and number of the apps printed
+'this file contains the number of IDs printed by this script (DetectLanguageScript.txt)
+myFile2 = "C:\Users\chiara\Desktop\DB_medical_IDcount_Step2.txt"
+
+counter = 0  'this counter will be used to count the number of apps printed by this script
+
+Open myFile For Output As #1
+Open myFile2 For Output As #2
+
+Documents("DB_medical_singlelinewID").Activate  'inserire tra (" ") il nome del file .doc creato in Excel
+
+With ActiveDocument
+    
+    ActiveDocument.DetectLanguage
+    
+    For Each para In ActiveDocument.Paragraphs
+        
+        lang = para.Range.LanguageID   'detect the language of the paragraph considered
+        
+        'we consider four different types of English that can be accepted
+        If ((lang = wdEnglishUS) Or (lang = wdEnglishAUS) Or (lang = wdEnglishUK) Or (lang = wdEnglishCanadian)) Then
+            
+            counter = counter + 1
+            Print #2, Left(para.Range.Text, 5)  'the IDs are the first five characters of the paragraph
+            
+            Print #1, para.Range.Text;   'print in the result .txt file the paragraph (description) only if it's written in English,
+                                         'otherwise nothing is written in the file
+        End If
+    
+    Next
+
+End With
+
+Print #2, vbNewLine
+Print #2, "Number of Medical apps after DetectLanguageScript.txt = " & counter
+
+Close #1, #2
+
+End Sub

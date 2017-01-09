@@ -1,0 +1,68 @@
+Sub ExportingSingleLinewID()
+
+'---> exporting descriptions (singleLine with ID) in a .doc (Word) document in order to apply DetectLanguage
+
+Dim myFile As String, myFile2 As String, myFile3 As String
+Dim cellValue As Variant, i As Long, jj As Long, kk As Long
+Dim c, cleaned As String
+Dim counter As Long
+
+myFile = "C:\Users\chiara\Desktop\DB_medical_singlelinewID.doc"   'output file on which we will apply our DetectLanguage script
+myFile2 = "C:\Users\chiara\Desktop\DB_medical_report.txt"         'report file
+
+'we declare an additional file to keep track of the IDs and number of the apps printed
+'this file contains the number of IDs printed by this script (Extraction&cleaning.txt)
+myFile3 = "C:\Users\chiara\Desktop\DB_medical_IDcount_Step1.txt"
+
+counter = 0  'this counter will be used to count the number of apps printed by this script
+
+Open myFile For Output As #1
+Open myFile2 For Output As #2
+Open myFile3 For Output As #3
+
+    For i = 1 To 33859 ' "rng1.Rows.Count" doesn't work, we have to specify manually the number of the last row
+        
+        cellValue = Cells(i, 20).Value  'we take the description of the app from column number 20 (letter T)
+                
+        'we consider only those apps with "English" as the language specified in the "Languages" column
+        If Cells(i, 4).Value = "English" Then
+                
+            'we remove non-ASCII characters (<127) from the description
+            cleaned = ""
+            kk = 0
+            For jj = 1 To Len(cellValue)
+                c = Mid(cellValue, jj, 1)
+                If AscW(c) <= 127 Then
+                    cleaned = cleaned & c
+                Else: kk = kk + 1
+                End If
+            Next
+            
+            'we remove spaces and special characters from the description
+            cleaned = Trim(cleaned)
+            cleaned = Application.WorksheetFunction.Clean(cleaned)
+            
+            'we print a report in a .txt file containing, the ID, the number of non-ASCII charcaters, the length of the description and the 75% of the length
+            'this report is not necessary for our work in MetaMap, it's just a reminder for us to check if everything is fine
+            Print #2, CStr(i + 10000) & Chr(124) & kk & Chr(124) & CStr(Len(cellValue)) & Chr(124) & CStr(0.75 * Len(cellValue))
+            
+            'additional filtering: if the non-ASCII characters overcomes 25% of the description, we do not print it
+            If kk < 0.75 * Len(cellValue) Then
+                If cleaned <> "" Then
+                
+                    Print #1, CStr(i + 10000) & Chr(124) & cleaned
+                    counter = counter + 1
+                    Print #3, CStr(i + 10000)
+                    
+                End If
+            End If
+        End If
+        
+    Next i
+    
+    Print #3, vbNewLine
+    Print #3, "Number of Medical apps after Extraction&cleaning.txt = " & counter
+
+Close #1, #2, #3
+
+End Sub

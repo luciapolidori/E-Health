@@ -1,0 +1,53 @@
+Sub FilteringTXT()
+
+'---> filtering spurious characters:
+'this script removes from the descriptions the ASCII characters that are repeated in a useless way two or three consecutive times within the text
+
+Dim myFile As String, outFile As String
+Dim ii As Long
+Dim jj, kk, length As Integer
+Dim a, b, textline As String
+
+'we define an array containing the codes of the ASCII characters we want to check
+Dim arr()
+arr = Array(8, 9, 10, 11, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 58, 59, 60, 61, 62, 63, 64, 94, 95, 96, 123, 124, 125, 126)
+
+myFile = "C:\Users\chiara\Desktop\DB_medical_languageDetected.txt"   'input file
+outFile = "C:\Users\chiara\Desktop\DB_medical_inputMetamap.txt"    'It contains all the descriptions that have been cleaned.
+                                                                   'This outFile represents the file to give as input to MetaMap
+                                                                                  
+'outFile2 = "C:\Users\chiara\Desktop\DB_medical_filtering_details.txt"
+
+
+Open myFile For Input As #1
+Open outFile For Output As #2
+'Open outFile2 For Output As #3
+
+length = UBound(arr, 1) - LBound(arr, 1) + 1
+
+Do Until EOF(1)
+    Line Input #1, textline
+        
+        jj = 0
+        kk = 48
+        
+        Do While jj < length
+            kk = arr(jj)
+            a = Chr(kk) & Chr(kk) & Chr(kk)
+            b = Chr(kk) & Chr(kk)
+            
+            'Print #3, jj & Chr(124) & kk & Chr(124) & a & Chr(124) & b
+            
+            textline = Replace(textline, a, "")
+            textline = Replace(textline, b, "")
+            jj = jj + 1
+        Loop
+    
+    textline = Trim(textline)
+    Print #2, textline
+    
+Loop
+    
+Close #1, #2 ', #3
+
+End Sub
