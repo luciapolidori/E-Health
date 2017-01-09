@@ -5,7 +5,7 @@ Dim i As Long
 Dim j As Long
 Dim n_toDelete As Long
 Dim counter(13, 2) As String
-Dim cardiology, audiology, neurology, diabete, pharmacology, pneumology, dermatology, mental, orthopedy, ginecology, rheumatology, educational, vision, radiology, sport As Integer
+Dim cardiology, audiology, sleep, neurology, diabete, pharmacology, pneumology, dermatology, mental, orthopedy, ginecology, rheumatology, educational, vision, radiology, sport As Integer
 Dim riga As Long
 riga = 2
 counter(1, 1) = "Daily or Recreational Activity"
@@ -47,6 +47,8 @@ Cells(1, 27).Value = "Mental Health"
 Cells(1, 28).Value = "Pharmacology"
 Cells(1, 29).Value = "Diabete"
 Cells(1, 30).Value = "Neurology"
+Cells(1, 31).Value = "Polysomnography"
+
 Do While Dir(MyFile) 'for each txt file about metamap output result
     Dim result() As String
     z = 1
@@ -58,6 +60,7 @@ Do While Dir(MyFile) 'for each txt file about metamap output result
     i = 0
     orthopedy = 0
     mental = 0
+    sleep = 0
     dermatology = 0
     cardiology = 0
     audiology = 0
@@ -102,6 +105,7 @@ Do While Dir(MyFile) 'for each txt file about metamap output result
             If (InStr(result(j), "[Mental or Behavioral Dysfunction]") > 0) Then
                 neurology = neurology + 1
             End If
+            
             
             If (InStr(result(j), "[Sign or Symptom]") > 0) Then
                 counter(2, 2) = CStr(CInt(counter(2, 2)) + 1)
@@ -315,6 +319,7 @@ Do While Dir(MyFile) 'for each txt file about metamap output result
                 diabete = diabete + checkInDatabase(organ, "Diabete")
                 orthopedy = orthopedy + checkInDatabase(organ, "PhysiatryOrthopedic")
                 rheumatology = rheumatology + checkInDatabase(organ, "Rheumatology")
+                dermatology = dermatology + checkInDatabase(organ, "Dermatology")
                 i = 0
             End If
         Next j
@@ -341,7 +346,7 @@ Do While Dir(MyFile) 'for each txt file about metamap output result
         Cells(riga, 28).Value = pharmacology
         Cells(riga, 29).Value = diabete
         Cells(riga, 30).Value = neurology
-    
+        Cells(riga, 31).Value = sleep
     'per passare ai file successivi e alla riga seguente di scrittura sul file excell
     nfile = nfile + 1
     riga = riga + 1
@@ -400,7 +405,7 @@ Dim i, j As Long
 i = 2
 
 Do While Cells(i, 32).Value <> ""
-    For j = 3 To 30
+    For j = 3 To 31
         If (Cells(i, j).Value) = Cells(i, 32).Value Then
             Cells(i, 33).Value = Cells(1, j).Value
             Exit For
@@ -411,7 +416,7 @@ Loop
 i = 2
 Do While Cells(i, 34).Value <> ""
     If CInt(Cells(i, 34).Value) <> 0 Then
-        For j = 16 To 30
+        For j = 16 To 31
             If (Cells(i, j).Value) = Cells(i, 34).Value Then
                 Cells(i, 35).Value = Cells(1, j).Value
                 Exit For
@@ -421,7 +426,7 @@ Do While Cells(i, 34).Value <> ""
             Cells(i, 35).Value = "Nutrition"
         End If
     Else
-        Cells(i, 34).Value = "UNCLASSIFICABLE"
+        Cells(i, 34).Value = "GENERAL HEALTH&FITNESS"
     End If
     i = i + 1
 Loop
