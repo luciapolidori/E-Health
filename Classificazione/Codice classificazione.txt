@@ -1,0 +1,478 @@
+Sub extractInfo()
+'declarations and initialization of all the variables used
+'sleep???
+Dim i As Long
+Dim j As Long
+Dim n_toDelete As Long
+Dim counter(13, 2) As String
+Dim cardiology, audiology, neurology, diabete, pharmacology, pneumology, dermatology, mental, orthopedy, ginecology, rheumatology, educational, vision, radiology, sport As Integer
+Dim riga As Long
+riga = 2
+counter(1, 1) = "Daily or Recreational Activity"
+counter(2, 1) = "Sign or Symptom"
+counter(3, 1) = "Organism Function"
+counter(4, 1) = "Health Care Activity"
+counter(5, 1) = "Disease or Syndrome"
+counter(6, 1) = "Food"
+counter(7, 1) = "Therapeutic or Preventive Procedure"
+counter(8, 1) = "Body Part, Organ, or Organ Component"
+counter(9, 1) = "Biomedical Occupation or Discipline"
+counter(10, 1) = "Diagnostic Procedure"
+counter(11, 1) = "Physiologic Function"
+counter(12, 1) = "Medical Device"
+counter(13, 1) = "Educational Activity"
+Dim nfile As Long
+nfile = riga - 1
+Dim text() As String
+Dim organ As String
+Dim MyFile As String, textline As String
+MyFile = Application.ActiveWorkbook.Path & "\H&F\Chiara\H&F" & CStr(nfile) & ".txt"
+Cells(1, 1).Value = "App Name"
+Cells(1, 2).Value = "App id"
+For i = 1 To 13
+    Cells(1, i + 2) = counter(i, 1)
+Next i
+Cells(1, 16).Value = "Cardiology"
+Cells(1, 17).Value = "Audiology"
+Cells(1, 18).Value = "Pneumology"
+Cells(1, 19).Value = "Radiology"
+Cells(1, 20).Value = "Sport"
+Cells(1, 21).Value = "Vision"
+Cells(1, 22).Value = "Ginecology"
+Cells(1, 23).Value = "EducationalHealthCare"
+Cells(1, 24).Value = "Rheumatology"
+Cells(1, 25).Value = "Dermatology"
+Cells(1, 26).Value = "Orthopedy"
+Cells(1, 27).Value = "Mental Health"
+Cells(1, 28).Value = "Pharmacology"
+Cells(1, 29).Value = "Diabete"
+Cells(1, 30).Value = "Neurology"
+Do While Dir(MyFile) 'for each txt file about metamap output result
+    Dim result() As String
+    z = 1
+    For i = 1 To 13
+        counter(i, 2) = CStr(0)
+    Next i
+    j = 0
+    n_toDelete = 0
+    i = 0
+    orthopedy = 0
+    mental = 0
+    dermatology = 0
+    cardiology = 0
+    audiology = 0
+    pneumology = 0
+    radiology = 0
+    ginecology = 0
+    diabete = 0
+    rheumatology = 0
+    educational = 0
+    neurology = 0
+    sport = 0
+    pharmacology = 0
+    vision = 0
+    
+    Open MyFile For Input As #1
+
+    'read the input text file
+    Do Until EOF(1)
+        ReDim Preserve text(i + 1)
+        Line Input #1, textline
+        text(i) = CStr(textline)
+        i = i + 1
+    Loop
+    Close #1
+    'extract the id-code we assigned in input to metamap
+    Cells(riga, 2).Value = Mid(text(0), InStr(text(0), "Processing ") + 11, 6)
+    result() = text()
+    
+        'start specific and general count
+        For j = 0 To UBound(result())
+        
+            If (InStr(result(j), "[Daily or Recreational Activity]") > 0) Then
+                counter(1, 2) = CStr(CInt(counter(1, 2)) + 1)
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                sport = sport + checkInDatabase(organ, "Sport")
+            End If
+                 
+            If (InStr(result(j), "[Mental or Behavioral Dysfunction]") > 0) Then
+                neurology = neurology + 1
+            End If
+            
+            If (InStr(result(j), "[Sign or Symptom]") > 0) Then
+                counter(2, 2) = CStr(CInt(counter(2, 2)) + 1)
+                adudiology = audiology + checkInDatabase(organ, "HearingHealthCare")
+                cardiology = cardiology + checkInDatabase(organ, "Cardiology")
+                pneomology = pneumology + checkInDatabase(organ, "Pneumology")
+                vision = vision + checkInDatabase(organ, "Vision")
+                ginecology = ginecology + checkInDatabase(organ, "Ginecology")
+                diabete = diabete + checkInDatabase(organ, "Diabete")
+                orthopedy = orthopedy + checkInDatabase(organ, "PhysiatryOrthopedic")
+                rheumatology = rheumatology + checkInDatabase(organ, "Rheumatology")
+                mental = mental + checkInDatabase(organ, "MentalHealth")
+                neurology = neurology + checkInDatabase(organ, "Neurology")
+            End If
+    
+            If (InStr(result(j), "[Mental Process]") > 0) Then
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                mental = mental + checkInDatabase(organ, "MentalHealth")
+                audiology = audiology + checkInDatabase(organ, "HearingHealthCare")
+            End If
+            
+            If (InStr(result(j), "[Pharmacologic Substance]") > 0) Then
+                pharmacology = pharmacology + 1
+            End If
+            If (InStr(result(j), "[Laboratory or Test Result]") > 0) Then
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                diabete = diabete + checkInDatabase(organ, "Diabete")
+            End If
+            
+            If (InStr(result(j), "[Professional or Occupational Group]") > 0) Then
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                cardiology = cardiology + checkInDatabase(organ, "Cardiology")
+                dermatology = dermatology + checkInDatabase(organ, "Dermatology")
+                ginecology = ginecology + checkInDatabase(organ, "Ginecology")
+                audiology = audiology + checkInDatabase(organ, "HearingHealthCare")
+                orthopedy = orthopedy + checkInDatabase(organ, "PhysiatryOrthopedic")
+                radiology = radiology + checkInDatabase(organ, "Radiology")
+                vision = vision + checkInDatabase(organ, "Vision")
+                educational = educational + checkInDatabase(organ, "EducationalHC")
+            End If
+            
+            If (InStr(result(j), "[Organism Function]") > 0) Then
+                counter(3, 2) = CStr(CInt(counter(3, 2)) + 1)
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                pneumology = pneumology + checkInDatabase(organ, "Pneumology")
+                audiology = audiology + checkInDatabase(organ, "HearingHealthCare")
+                vision = vision + checkInDatabase(organ, "Vision")
+                ginecology = ginecology + checkInDatabase(organ, "Ginecology")
+                counter(6, 2) = CStr(CInt(counter(6, 2)) + checkInDatabase(organ, "Nutrition"))
+            End If
+            
+            If (InStr(result(j), "[Health Care Activity]") > 0) Then
+                counter(4, 2) = CStr(CInt(counter(4, 2)) + 1)
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                educational = educational + checkInDatabase(organ, "EducationalHC")
+                counter(6, 2) = CStr(CInt(counter(6, 2)) + checkInDatabase(organ, "Nutrition"))
+            End If
+            
+            
+        
+            If (InStr(result(j), "[Disease or Syndrome]") > 0) Then
+                counter(5, 2) = CStr(CInt(counter(5, 2)) + 1)
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                cardiology = cardiology + checkInDatabase(organ, "Cardiology")
+                pneumology = pneumology + checkInDatabase(organ, "Pneumology")
+                radiology = radiology + checkInDatabase(organ, "Radiology")
+                vision = vision + checkInDatabase(organ, "Vision")
+                rheumatology = rheumatology + checkInDatabase(organ, "Rheumatology")
+                ginecology = ginecology + checkInDatabase(organ, "Ginecology")
+                dermatology = dermatology + checkInDatabase(organ, "Dermatology")
+                diabete = diabete + checkInDatabase(organ, "Diabete")
+                neurology = neurology + checkInDatabase(organ, "Neurology")
+                orthopedy = orthopedy + checkInDatabase(organ, "PhysiatryOrthopedic")
+            End If
+            
+            
+            If (InStr(result(j), "[Food]") > 0) Then
+                counter(6, 2) = CStr(CInt(counter(6, 2)) + 1)
+            End If
+            
+            
+            If (InStr(result(j), "[Therapeutic or Preventive Procedure]") > 0) Then
+                counter(7, 2) = CStr(CInt(counter(7, 2)) + 1)
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                cardiology = cardiology + checkInDatabase(organ, "Cardiology")
+                pneumology = pneumology + checkInDatabase(organ, "Pneumology")
+                radiology = radiology + checkInDatabase(organ, "Radiology")
+                vision = vision + checkInDatabase(organ, "Vision")
+                ginecology = ginecology + checkInDatabase(organ, "Ginecology")
+                orthopedy = orthopedy + checkInDatabase(organ, "PhysiatryOrthopedic")
+                dermatology = dermatology + checkInDatabase(organ, "Dermatology")
+                counter(6, 2) = CStr(CInt(counter(6, 2)) + checkInDatabase(organ, "Nutrition"))
+            End If
+            
+            
+            If (InStr(result(j), "[Biomedical Occupation or Discipline]") > 0) Then
+                counter(9, 2) = CStr(CInt(counter(9, 2)) + 1)
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                cardiology = cardiology + checkInDatabase(organ, "Cardiology")
+                pneumology = pneumology + checkInDatabase(organ, "Pneumology")
+                radiology = radiology + checkInDatabase(organ, "Radiology")
+                vision = vision + checkInDatabase(organ, "Vision")
+                audiology = audiology + checkInDatabase(organ, "HearingHealthCare")
+                ginecology = ginecology + checkInDatabase(organ, "Ginecology")
+                dermatology = dermatology + checkInDatabase(organ, "Dermatology")
+                neurology = neurology + checkInDatabase(organ, "Neurology")
+                rheumatology = rheumatology + checkInDatabase(organ, "Rheumatology")
+                counter(6, 2) = CStr(CInt(counter(6, 2)) + checkInDatabase(organ, "Nutrition"))
+            End If
+            
+            
+            If (InStr(result(j), "[Diagnostic Procedure]") > 0) Then
+                counter(10, 2) = CStr(CInt(counter(10, 2)) + 1)
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                cardiology = cardiology + checkInDatabase(organ, "Cardiology")
+                pneumology = pneumology + checkInDatabase(organ, "Pneumology")
+                radiology = radiology + checkInDatabase(organ, "Radiology")
+                vision = vision + checkInDatabase(organ, "Vision")
+                ginecology = ginecology + checkInDatabase(organ, "Ginecology")
+                rheumatology = rheumatology + checkInDatabase(organ, "Rheumatology")
+                audiology = audiology + checkInDatabase(organ, "HearingHealthCare")
+                counter(6, 2) = CStr(CInt(counter(6, 2)) + checkInDatabase(organ, "Nutrition"))
+            End If
+            
+            If (InStr(result(j), "[Educational Activity]") > 0) Then
+                counter(13, 2) = CStr(CInt(counter(13, 2)) + 1)
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                educational = educational + checkInDatabase(organ, "EducationalHC")
+            End If
+         
+            If (InStr(result(j), "[Medical Device]") > 0) Then
+                counter(12, 2) = CStr(CInt(counter(12, 2)) + 1)
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                audiology = audiology + checkInDatabase(organ, "HearingHealthCare")
+                vision = vision + checkInDatabase(organ, "Vision")
+                radiology = radiology + checkInDatabase(organ, "Radiology")
+                dermatology = dermatology + checkInDatabase(organ, "Dermatology")
+            End If
+            
+            
+            If (InStr(result(j), "[Physiologic Function]") > 0) Then
+                counter(11, 2) = CStr(CInt(counter(11, 2)) + 1)
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                audiology = audiology + checkInDatabase(organ, "HearingHealthCare")
+                pneomology = pneumology + checkInDatabase(organ, "Pneumology")
+                vision = vision + checkInDatabase(organ, "Vision")
+                cardiology = cardiology + checkInDatabase(organ, "Cardiology")
+                diabete = diabete + checkInDatabase(organ, "Diabete")
+            End If
+            
+            If (InStr(result(j), "[Body Part, Organ, or Organ Component]") > 0) Then
+                counter(8, 2) = CStr(CInt(counter(8, 2)) + 1)
+                If InStr(result(j), "(") > 0 Then
+                    organ = Trim(LCase(Mid(Mid(result(j), 10, InStr(result(j), "[") - 10), 1, InStr(Mid(result(j), 10, InStr(result(j), "[") - 10), "(") - 1)))
+                Else
+                    organ = Trim(LCase(Mid(result(j), 10, InStr(result(j), "[") - 10)))
+                End If
+                adudiology = audiology + checkInDatabase(organ, "HearingHealthCare")
+                cardiology = cardiology + checkInDatabase(organ, "Cardiology")
+                pneomology = pneumology + checkInDatabase(organ, "Pneumology")
+                vision = vision + checkInDatabase(organ, "Vision")
+                ginecology = ginecology + checkInDatabase(organ, "Ginecology")
+                diabete = diabete + checkInDatabase(organ, "Diabete")
+                orthopedy = orthopedy + checkInDatabase(organ, "PhysiatryOrthopedic")
+                rheumatology = rheumatology + checkInDatabase(organ, "Rheumatology")
+                i = 0
+            End If
+        Next j
+        
+        
+        'stampo tutti i contatori di fatto per le varie categorie semantiche(se si aggiungono categorie, il for to salità)
+        For i = 1 To 13
+                Cells(riga, i + 2) = counter(i, 2)
+        Next i
+        
+        'stampo i contatori che di volta in volta sto aggiungendo (nota bene...aggiornare ogni volta che si aggiunge qualcosa..se si aggiunge una categoria, shiftano tutti una colonna più in là)
+        Cells(riga, 16).Value = cardiology
+        Cells(riga, 17).Value = audiology
+        Cells(riga, 18).Value = pneumology
+        Cells(riga, 19).Value = radiology
+        Cells(riga, 20).Value = sport
+        Cells(riga, 21).Value = vision
+        Cells(riga, 22).Value = ginecology
+        Cells(riga, 23).Value = educational
+        Cells(riga, 24).Value = rheumatology
+        Cells(riga, 25).Value = dermatology
+        Cells(riga, 26).Value = orthopedy
+        Cells(riga, 27).Value = mental
+        Cells(riga, 28).Value = pharmacology
+        Cells(riga, 29).Value = diabete
+        Cells(riga, 30).Value = neurology
+    
+    'per passare ai file successivi e alla riga seguente di scrittura sul file excell
+    nfile = nfile + 1
+    riga = riga + 1
+    MyFile = Application.ActiveWorkbook.Path & "\H&F\Chiara\H&F" & CStr(nfile) & ".txt"
+Loop
+
+
+
+End Sub
+
+
+'the function receives in input two parameters
+'wordsToCheck --> it's the word/phrase parsed by metamap which has been categorized into a relevant semantic category
+'database --> the name of the database in which search the word/phrase in input
+Function checkInDatabase(wordsToCheck As String, database As String) As Integer
+checkInDatabase = 0
+Dim databasePath As String
+Dim i, j As Integer
+Dim sports() As String
+Dim words() As String
+i = 0
+databasePath = Application.ActiveWorkbook.Path & "\database\" & database & ".txt"
+Open databasePath For Input As #1
+Do Until EOF(1)
+        ReDim Preserve sports(i + 1)
+        Line Input #1, sports(i)
+        i = i + 1
+    Loop
+    Close #1
+i = 0
+'divide the phrase into single words to be searched in the database
+words() = Split(wordsToCheck, " ")
+If (UBound(words()) > 0) Then
+    For j = 0 To UBound(words())
+        Do While i < UBound(sports()) - 1
+            If LCase(Trim(sports(i))) = LCase(Trim(words(j))) Then
+                checkInDatabase = checkInDatabase + 1
+            End If
+            i = i + 1
+        Loop
+        i = 0
+    Next j
+Else
+        Do While i < UBound(sports()) - 1
+            If LCase(Trim(sports(i))) = LCase(Trim(wordsToCheck)) Then
+                checkInDatabase = checkInDatabase + 1
+            End If
+            i = i + 1
+        Loop
+End If
+End Function
+
+
+Sub classify()
+Dim i, j As Long
+i = 2
+
+Do While Cells(i, 32).Value <> ""
+    For j = 3 To 30
+        If (Cells(i, j).Value) = Cells(i, 32).Value Then
+            Cells(i, 33).Value = Cells(1, j).Value
+            Exit For
+        End If
+    Next j
+    i = i + 1
+Loop
+i = 2
+Do While Cells(i, 34).Value <> ""
+    If CInt(Cells(i, 34).Value) <> 0 Then
+        For j = 16 To 30
+            If (Cells(i, j).Value) = Cells(i, 34).Value Then
+                Cells(i, 35).Value = Cells(1, j).Value
+                Exit For
+            End If
+        Next j
+        If Cells(i, 35).Value = "" Then
+            Cells(i, 35).Value = "Nutrition"
+        End If
+    Else
+        Cells(i, 34).Value = "UNCLASSIFICABLE"
+    End If
+    i = i + 1
+Loop
+
+End Sub
+
+
+Sub fixTextFiles()
+Dim i, j, z As Long
+Dim result() As String
+Dim MyFile As String, textline As String
+For j = 1 To 1484
+    MyFile = "D:\Medical\Siria\Medical" & CStr(j) & ".txt"
+If Dir(MyFile) <> "" Then
+    Open MyFile For Input As #1
+    Do Until EOF(1)
+        Line Input #1, textline
+    Loop
+    Close #1
+    
+    Dim text() As String
+    textline = Replace(textline, "]", "):")
+    text() = Split(textline, "):")
+    
+    For i = 0 To UBound(text())
+        text(i) = text(i) & "]"
+    Next i
+    
+    For i = 0 To UBound(text())
+        text(i) = Right(text(i), Len(text(i)) - 1)
+    Next i
+    text(0) = " P" & text(0)
+    result() = text()
+    
+    'alcune righe sono esattamente duplicate per filo e per segno...marco pure quelle per l'eliminazione
+    For i = 0 To UBound(text())
+        For z = i + 1 To UBound(result())
+            If text(i) = result(z) Then
+                result(z) = "ITEM_TO_DELETE"
+            End If
+        Next z
+    Next i
+    
+    Open MyFile For Output As #1
+    For i = 0 To UBound(result())
+        If Left(result(i), 1) = " " Then
+            Write #1, result(i)
+        End If
+    Next i
+    Close #1
+End If
+Next j
+
+End Sub
